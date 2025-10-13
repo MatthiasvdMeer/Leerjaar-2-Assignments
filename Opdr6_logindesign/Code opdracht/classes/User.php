@@ -98,11 +98,19 @@ public function loginUser(): bool {
 }
 
         // Check if the user is already logged in
-        public function isLoggedin(): bool {
-            // Check if user session has been set
-            
-            return false;
+public function isLoggedin(): void {
+    // session_start(); // NIET opnieuw starten, dat doe je al in index.php
+
+    if (isset($_SESSION['username'])) {
+        if (isset($_GET['login']) && $_GET['login'] === 'success') {
+            echo "Logged in successfully.<br>";
         }
+        echo "Username: " . htmlspecialchars($_SESSION['username']) . "<br>";
+        echo "Password: " . htmlspecialchars($_SESSION['password']) . "<br>";
+        echo "Email: " . htmlspecialchars($_SESSION['email']) . "<br>";
+        echo '<a href="index.php?logout=true">Log out</a>';
+    }
+}
 
         public function getUser(string $username): bool {
             // Connect database
@@ -118,15 +126,19 @@ public function loginUser(): bool {
             }   
         }
 
-        public function logout(){
-            session_start();
-            // remove all session variables
-           
 
-            // destroy the session
-            
+public function logout(){
+    session_start();
+    // Verwijder alle sessievariabelen
+    $_SESSION = array();
 
-        }
+    // Vernietig de sessie
+    session_destroy();
+
+    // Optioneel: redirect naar login of home
+    header("Location: login_form.php");
+    exit;
+}
 
 
     }
