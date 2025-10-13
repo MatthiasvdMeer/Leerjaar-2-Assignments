@@ -60,7 +60,7 @@ public function showUser(): void {
     echo "Email: " . htmlspecialchars($this->email) . "<br>";
 }
 
-       function validateUser(){
+function validateUser(){
     $errors=[];
 
     if (empty($this->username)){
