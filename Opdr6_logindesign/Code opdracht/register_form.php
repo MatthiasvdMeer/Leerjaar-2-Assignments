@@ -1,74 +1,55 @@
 <?php
-	// Functie: programma login OOP 
-    // Auteur: Studentnaam
-	require_once('classes/User.php');
+session_start();
+require_once 'classes/User.php';
 
-	$user = new User();
-	$errors=[];
+if (isset($_POST['register-btn'])) {
+    $user = new User(); // username wordt hier direct ingesteld
+    $user->username = trim($_POST['username']);
+    $user->setPassword($_POST['password']);
 
-	// Is de register button aangeklikt?
-	if(isset($_POST['register-btn'])){
-		
-		// Gegevens uit formulier halen
-		$user->username = $_POST['username'];
-		$user->setPassword($_POST['password']);
+    // Valideer input
+    $errors = $user->validateUser();
 
-		// Validatie gegevens
-		// Hoe???
+    // Als geen errors, registreer user
+    if (count($errors) === 0) {
+        $errors = $user->registerUser();
+    }
 
-		// Test of er geen errors zijn
-		if(count($errors) == 0){
-			// Register user
-			$errors = $user->registerUser();
-		}
-		
-		if(count($errors) > 0){
-			$message = "";
-			foreach ($errors as $error) {
-				$message .= $error . "\\n";
-			}
-			
-			echo "
-			<script>alert('" . $message . "')</script>
-			<script>window.location = 'register_form.php'</script>";
-		
-		} else {
-			echo "
-				<script>alert('" . "User registerd" . "')</script>
-				<script>window.location = 'login_form.php'</script>";
-		}
-
-	}
+    // Toon errors of redirect naar login
+    if (count($errors) > 0) {
+        $message = implode("\\n", $errors);
+        echo "<script>alert('$message'); window.location='register_form.php';</script>";
+    } else {
+        echo "<script>alert('User registered successfully'); window.location='login_form.php';</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
 <body>
-	
+    <h3>Register new user</h3>
+    <hr>
 
-		<h3>PHP - PDO Login and Registration</h3>
-		<hr/>
-
-			<form action="" method="POST">	
-				<h4>Register here...</h4>
-				<hr>
-				
-				<div>
-					<label>Username</label>
-					<input type="text"  name="username" />
-				</div>
-				<div >
-					<label>Password</label>
-					<input type="password"  name="password" />
-				</div>
-				<br />
-				<div>
-					<button type="submit" name="register-btn">Register</button>
-				</div>
-				<a href="index.php">Home</a>
-			</form>
-
-
+    <form method="POST" action="">
+        <div>
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username">
+        </div>
+        <div>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password">
+        </div>
+        <br>
+        <div>
+            <button type="submit" name="register-btn">Register</button>
+        </div>
+        <br>
+        <a href="login_form.php">Login</a> | <a href="index.php">Home</a>
+    </form>
 </body>
 </html>
