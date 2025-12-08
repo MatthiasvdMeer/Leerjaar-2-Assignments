@@ -1,0 +1,15 @@
+{
+    "name": "07mat/calculator",
+    "autoload": {
+        "psr-4": {
+            "Project_Calculator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MatthiasvdMeer",
+            "email": "9026846@student.tcrmbo.nl"
+        }
+    ],
+    "require": {}
+}
