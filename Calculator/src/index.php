@@ -1,6 +1,6 @@
 <?php
 require_once '../vendor/autoload.php';
-use Project_Calculator\Classes\Calculator;
+use Project_calculator\Classes\Calculator;
 
 
 $calc = new Calculator();
