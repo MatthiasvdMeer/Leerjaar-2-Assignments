@@ -1,4 +1,9 @@
 <?php
+namespace User\CrudFiets;
+
+use PDO;
+use PDOException;
+
 class Database {
     public static $db    = 'fietsenmaker';
     public static $host  = 'localhost';
